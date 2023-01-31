@@ -40,6 +40,7 @@ In this case, I would suggest using AWS Quicksight because most of our infrastru
 
 ## First design: Use directly our input data sources
 
+![alt first design](https://github.com/JaimeOverflow/VesselsDesign/blob/main/first_design.png)
 
 This approach would only work if we have all the data we need in our input data sources and minimising the costs in terms of infrastructure.
 
@@ -66,6 +67,8 @@ These extras are not included in the design but we should take into account.
 In this case, we would need to use MSK Connect (Kafka Connect) to transfer all the events to our RDS database which will be used by Quicksight.
 
 ## Second design: Treated data sources
+
+![alt second design](https://github.com/JaimeOverflow/VesselsDesign/blob/main/second_design.png)
 
 In this approach, we are going to use the same approach than the fist design but we are going to add a layer of data processing for our AWS RDS and Kafka cluster so we can have more treated data for our AI model and Quicksight dashboards.
 
