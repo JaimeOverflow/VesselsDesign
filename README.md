@@ -48,6 +48,8 @@ In this case, I would suggest using AWS Quicksight because most of our infrastru
 
 ## Design:
 
+![Alt design](https://github.com/JaimeOverflow/VesselsDesign/blob/main/design.png)
+
 First of all, our AI model is a Spark application running on the AWS EMR cluster. Using AWS EMR, we need to provide an input AWS S3 bucket and an output bucket for the results. Apart from that, we need to use the AWS Glue Data Catalog to define the data schema and format in our S3 buckets.
 
 We know that we are going to need further processing over the initial data sources which will allow our AI model to process the data and finally building dashboard using Quicksight.
