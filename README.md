@@ -28,7 +28,7 @@ For our postgres database, we could use the AWS DMS (Database Migration Service)
 
 For our Kafka data source, we could use MSK Connect which supports connectors that can take the events from the Kafka cluster to our AWS MSK.
 
-## Data warehose
+## Data warehouse
 
 As part of the additional suggestions section, we are going to have analytical queries and we don't want them to affect our AWS RDS postgres database.
 
@@ -44,7 +44,7 @@ We need the data from the different input sources to be able to predict the vess
 
 We need to create dashboard to visualisise aggregated data. In this case, we could use different visualisation tools like Tableau, Power BI or AWS Quicksight.
 
-In this case, I would suggest using AWS Quicksight because most of our infrastructure is in AWS and It provides all the tools to connect our data warehose.
+In this case, I would suggest using AWS Quicksight because most of our infrastructure is in AWS and It provides all the tools to connect our data warehouse.
 
 ## Design:
 
@@ -56,16 +56,16 @@ In case our Kafka cluster in MSK, we need to have Kafka application that is able
 
 For our Kafka cluster (MSK), we are going to use MSK Connect which allows to store the events into an S3 bucket.
 
-In case our postgres database, we would need further processing for analytical queries which means I need to transfer all the needed data to our data warehose which is Redshift in this case.
+In case our postgres database, we would need further processing for analytical queries which means I need to transfer all the needed data to our data warehouse which is Redshift in this case.
 
 I'm going to use AWS DMS (Database Migration Service) to transfer the data from our AWS RDS postgres to Redshift.
 
 We are going to need a workflow orchestration tool like Airflow which will take care of most of the tasks in our system and everything will be scheduled.
 
 Airflow will take care of additional tasks including:
-- Run the analytical queries in our data warehose, store the results into the AWS S3 input bucket for our AWS EMR Spark jobs.
-- Take the last vessels locations from our Kafka cluster and send a request to the weather web API with the weather location we are interested and finally store it into our data warehose which will could by the analytical queries that mentioned previously and finally use it for the AWS EMR jobs.
-- In case we need to aggregate data between our Kafka cluster and our data warehose, we could store the Kafka events into an S3 bucket using MSK Connect, and use Airflow to load the data from this bucket to our data warehose.
+- Run the analytical queries in our data warehouse, store the results into the AWS S3 input bucket for our AWS EMR Spark jobs.
+- Take the last vessels locations from our Kafka cluster and send a request to the weather web API with the weather location we are interested and finally store it into our data warehouse which will could by the analytical queries that mentioned previously and finally use it for the AWS EMR jobs.
+- In case we need to aggregate data between our Kafka cluster and our data warehouse, we could store the Kafka events into an S3 bucket using MSK Connect, and use Airflow to load the data from this bucket to our data warehouse.
 - Schedule and run the AWS EMR jobs when we have stored the processed data into the AWS S3 input bucket.
 
 Once the AWS EMR jobs are done, we can decide to create the Quicksight dashboards using the AWS S3 output bucket from EMR or we could use Airflow to ingest the data from the bucket to Redshift and build the dashboards from the Redshift data (It's the approach I took in the design image).
